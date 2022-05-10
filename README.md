@@ -62,3 +62,50 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+## Getting Started
+
+### Initialize repository
+```
+git clone https://github.com/mmartinslovik/webte2-final.git
+cd webte2-final
+```
+
+### On Windows
+```
+git config --global core.eol lf
+git config --global core.autocrlf input 
+git rm -rf --cached .
+git reset --hard HEAD
+```
+
+### Setup Docker
+```
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v $(pwd):/var/www/html \
+    -w /var/www/html \
+    laravelsail/php81-composer:latest \
+    composer install --ignore-platform-reqs
+```
+
+### Copy .env
+```
+cp .env.example .env
+```
+
+### Setup Sail
+```
+alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
+```
+
+### Generate key
+```
+sail artisan key:generate
+```
+### Turn of mysql server to enable port
+### Run detached on localhost
+```
+sail up -d
+```
