@@ -18,6 +18,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/export', function () {
+    return view('export');
+});
+
+Route::post('/export', [CasController::class, 'exportCsv'])->name('export');
+
 Route::get('/cas', function () {
     return view('cas');
 });

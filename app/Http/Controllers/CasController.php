@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Cas;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 
 class CasController extends Controller
 {
@@ -14,7 +16,7 @@ class CasController extends Controller
 
         $casResponse = Http::get('https://site162.webte.fei.stuba.sk/octave/command.php', [
             'command' => $command,
-            'api_key' => '27925e7e-a476-4a0d-a2a8-ee84d29dc364'
+            'api_key' => env('API_KEY')
         ]);
 
         $result = json_decode($casResponse);
@@ -32,6 +34,29 @@ class CasController extends Controller
         return view('cas')->with(
             [
                 'result' => $result
+            ]
+        );
+    }
+
+    public function exportCsv(Request $request) {
+        $sendEmail = $request->input('sendEmail');
+        $email = $request->input('email');
+        $table = Cas::all();
+        $file = fopen('exported_logs.csv', 'w');
+        foreach ($table as $row) {
+            fputcsv($file, $row->toArray());
+        }
+        fclose($file);
+        if ($sendEmail) {
+            Mail::raw('Hello, this is exported database to csv.', function ($message) use ($email, $file) {
+                $message->attach('exported_logs.csv');
+                $message->to($email);
+                $message->subject("Exported csv file of API requests");
+            });
+        }
+        return view('cas')->with(
+            [
+                "sent" => true
             ]
         );
     }
