@@ -25,7 +25,7 @@ class CasController extends Controller
         $cas->command = $command;
         $cas->execution_time = date('Y-m-d H:i:s');
 
-        if(isset($result->result[0]->err)) {
+        if (isset($result->result[0]->err)) {
             $cas->error_occurred = $result->result[0]->err;
         }
 
@@ -38,22 +38,27 @@ class CasController extends Controller
         );
     }
 
-    public function exportCsv(Request $request) {
+    public function exportCsv(Request $request)
+    {
         $sendEmail = $request->input('sendEmail');
         $email = $request->input('email');
+
         $table = Cas::all();
-        $file = fopen('exported_logs.csv', 'w');
+        $filename = 'exported_logs.csv';
+        $file = fopen($filename, 'w');
         foreach ($table as $row) {
             fputcsv($file, $row->toArray());
         }
         fclose($file);
-        if ($sendEmail) {
-            Mail::raw('Hello, this is exported database to csv.', function ($message) use ($email, $file) {
-                $message->attach('exported_logs.csv');
+
+        if (isset($sendEmail)) {
+            Mail::raw('Hello, this is exported database to csv.', function ($message) use ($filename, $email) {
+                $message->attach($filename);
                 $message->to($email);
                 $message->subject("Exported csv file of API requests");
             });
         }
+
         return view('cas')->with(
             [
                 "sent" => true
