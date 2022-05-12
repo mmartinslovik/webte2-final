@@ -100,12 +100,18 @@ cp .env.example .env
 alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 ```
 
-### Generate key
-```
-sail artisan key:generate
-```
 ### Turn of mysql server to enable port
 ### Run detached on localhost
 ```
 sail up -d
+```
+
+### Generate key
+```
+sail artisan key:generate
+```
+
+### Open new terminal tab
+```
+sail artisan serve --port 3001
 ```
