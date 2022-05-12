@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\CasController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,10 @@ Route::post('/export', [CasController::class, 'exportCsv'])->name('export');
 Route::get('/cas', function () {
     return view('cas');
 });
+
+Route::get('/coordinates', [ApiController::class, 'getCoordinatesResponse'])->name('coordinates');
+
+Route::get('/command', [ApiController::class, 'getCommandResponse'])->name('command');
 
 Route::post('/cas', [CasController::class, 'getCas'])->name('cas');
 

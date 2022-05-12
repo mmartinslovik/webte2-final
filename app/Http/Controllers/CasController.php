@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use stdClass;
 
 class CasController extends Controller
 {
@@ -14,7 +15,7 @@ class CasController extends Controller
     {
         $command = $request->input('command');
 
-        $casResponse = Http::get('https://site162.webte.fei.stuba.sk/octave/command.php', [
+        $casResponse = Http::get('http://localhost:3001/command', [
             'command' => $command,
             'api_key' => env('API_KEY')
         ]);
