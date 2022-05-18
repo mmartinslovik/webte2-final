@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
-use stdClass;
 
 class CasController extends Controller
 {
@@ -21,16 +20,6 @@ class CasController extends Controller
         ]);
 
         $result = json_decode($casResponse);
-
-        $cas = new Cas();
-        $cas->command = $command;
-        $cas->execution_time = date('Y-m-d H:i:s');
-
-        if (isset($result->result[0]->err)) {
-            $cas->error_occurred = $result->result[0]->err;
-        }
-
-        $cas->save();
 
         return view('cas')->with(
             [
@@ -67,5 +56,5 @@ class CasController extends Controller
         );
     }
 
-    // TODO cas with r and plot function
+    // TODO cas with r and plot function with websockets
 }

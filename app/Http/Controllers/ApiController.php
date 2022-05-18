@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cas;
 use Illuminate\Http\Request;
 use stdClass;
 
 class ApiController extends Controller
 {
-    public function getCoordinatesResponse(Request $request) {
+    public function getCoordinatesResponse(Request $request)
+    {
         header("HTTP/1.1 200 SUCCESS");
         $jsonResult = new stdClass();
         $jsonList = [];
@@ -44,13 +46,23 @@ class ApiController extends Controller
                 }
             }
             $jsonResult->result = $jsonList;
+            $cas = new Cas();
+            $cas->command = $cmd;
+            $cas->execution_time = date('Y-m-d H:i:s');
+            if (isset($jsonObject->err)) {
+                $cas->error_occurred = $jsonObject->err;
+            }
+            $cas->save();
+
             echo json_encode($jsonResult);
         } else {
             header("HTTP/1.1 404 NOT FOUND");
+            exit();
         }
     }
 
-    public function getCommandResponse(Request $request) {
+    public function getCommandResponse(Request $request)
+    {
         header("HTTP/1.1 200 SUCCESS");
         $jsonResult = new stdClass();
         $jsonList = [];
@@ -79,9 +91,18 @@ class ApiController extends Controller
                 }
             }
             $jsonResult->result = $jsonList;
+            $cas = new Cas();
+            $cas->command = $cmd;
+            $cas->execution_time = date('Y-m-d H:i:s');
+            if (isset($jsonObject->err)) {
+                $cas->error_occurred = $jsonObject->err;
+            }
+            $cas->save();
+
             echo json_encode($jsonResult);
         } else {
             header("HTTP/1.1 404 NOT FOUND");
+            exit();
         }
     }
 }
