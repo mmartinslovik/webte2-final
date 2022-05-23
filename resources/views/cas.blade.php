@@ -40,6 +40,22 @@
                             {{ __('Submit') }}
                         </button>
                     </form>
+                    @if(isset($result))
+                    <br>
+                    <div>
+                        <p>Result:</p>
+                        <p id="resultText"></p>
+                        <script>
+                            var resultJsonData = <?php echo json_encode($result); ?>;
+                            // var parsedResultData = JSON.parse(resultJsonData);
+                            // console.log(parsedResultData);
+                            var resultText = resultJsonData['result'][0]['ans']
+                            var cont = document.getElementById('resultText').innerText = resultText;
+                        </script>
+                        <br>
+                    </div>
+                    @endif
+
 
                     <!-- Send email form -->
                     <form action="{{ route('export') }}" method="post">
@@ -416,11 +432,6 @@
         </div>
     </div>
 
-    @if(isset($result))
-    <div>
-        {{ json_encode($result) }}
-    </div>
-    @endif
 
 
 
