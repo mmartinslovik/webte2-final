@@ -43,7 +43,7 @@
                     @if(isset($result))
                     <br>
                     <div>
-                        <p>Result:</p>
+                        <p>{{ __('Result') }}:</p>
                         <p id="resultText"></p>
                         <script>
                             var resultJsonData = <?php echo json_encode($result); ?>;
