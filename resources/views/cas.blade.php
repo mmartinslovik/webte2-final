@@ -9,8 +9,61 @@
         <div class="container px-6 py-12 h-full">
             <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
                 <div class="md:w-8/12 lg:w-5/12 lg:ml-20">
-                    <!-- Command form -->
 
+                    <form action="{{ route('cas') }}" method="post">
+                        @csrf
+                        <!-- Command input -->
+                        <div class="mb-6">
+                            <label class="form-check-label inline-block text-gray-800" for="textarea1">{{ __('Command') }}</label>
+                            <input class="
+                                form-control
+                                block
+                                w-full
+                                px-3
+                                py-1.5
+                                text-base
+                                font-normal
+                                text-gray-700
+                                bg-white bg-clip-padding
+                                border border-solid border-gray-300
+                                rounded
+                                transition
+                                ease-in-out
+                                m-0
+                                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                                font-normal
+                                " id="textarea1" rows="15" placeholder="{{ __('Insert octave command') }}" name="command"></input>
+                        </div>
+
+                        <!-- Submit button -->
+                        <button class="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full" data-mdb-ripple="true" data-mdb-ripple-color="light">
+                            Submit
+                        </button>
+                    </form>
+
+                    <!-- Send email form -->
+                    <form action="{{ route('export') }}" method="post">
+                        @csrf
+                        <div class="mb-6">
+                            <label class="form-check-label inline-block text-gray-800" for="email1">{{ __('Email address') }}</label>
+                            <input id="email1" type="email" class="form-control block w-full px-4 py-2 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="jan.vajan@mail.com" name="email" />
+                        </div>
+
+                        <!-- Send email checkbox -->
+                        <div class="flex justify-between items-center mb-6">
+                            <div class="form-group form-check">
+                                <input type="checkbox" class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" id="exampleCheck1" name="sendEmail" />
+                                <label class="form-check-label inline-block text-gray-800" for="exampleCheck1">{{ __('Send email') }}</label>
+                            </div>
+                        </div>
+
+                        <!-- Submit button -->
+                        <button type="submit" class="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full" data-mdb-ripple="true" data-mdb-ripple-color="light">
+                            {{ __('Export') }}
+                        </button>
+                    </form>
+
+                    <!-- Send octave command for animation and graph -->
                     <form action="{{ route('coordinates') }}" method="get">
                         <!-- @csrf -->
                         <div class="mb-6">
@@ -41,62 +94,320 @@
                         </button>
 
                     </form>
+                    @if(isset($r))
+                    <br>
+                    <button id="startButton" class="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full" data-mdb-ripple="true" data-mdb-ripple-color="light">START</button>
 
-                    <form action="{{ route('cas') }}" method="post">
-                        @csrf
-                        <!-- Command input -->
-                        <div class="mb-6">
-                            <label class="form-check-label inline-block text-gray-800" for="textarea1">{{ __('Command') }}</label>
-                            <textarea class="
-                                form-control
-                                block
-                                w-full
-                                px-3
-                                py-1.5
-                                text-base
-                                font-normal
-                                text-gray-700
-                                bg-white bg-clip-padding
-                                border border-solid border-gray-300
-                                rounded
-                                transition
-                                ease-in-out
-                                m-0
-                                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-                                font-normal
-                                " id="textarea1" rows="15" placeholder="{{ __('Insert octave command') }}" name="command"></textarea>
-                        </div>
-
-                        <!-- Submit button -->
-                        <button class="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full" data-mdb-ripple="true" data-mdb-ripple-color="light">
-                            Submit
-                        </button>
-                    </form>
-
-                    <!-- Send email form -->
-                    <form action="{{ route('export') }}" method="post">
-                        @csrf
-                        <div class="mb-6">
-                            <label class="form-check-label inline-block text-gray-800" for="email1">{{ __('Email address') }}</label>
-                            <input id="email1" type="email" class="form-control block w-full px-4 py-2 font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="jan.vajan@mail.com" name="email" />
-                        </div>
-
-                        <!-- Send email checkbox -->
-                        <div class="flex justify-between items-center mb-6">
-                            <div class="form-group form-check">
-                                <input type="checkbox" class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" id="exampleCheck1" name="sendEmail" />
-                                <label class="form-check-label inline-block text-gray-800" for="exampleCheck1">{{ __('Send email') }}</label>
+                    <div><canvas id="myChart"></canvas></div>
+                    <div>
+                        <div style="display: grid; grid-template-columns: auto auto;">
+                            <div style="text-align: center;">
+                                <p style="color: red;">Wheel</p>
+                            </div>
+                            <div style="text-align: center;">
+                                <p style="color: blue;">Car</p>
                             </div>
                         </div>
-
-                        <!-- Submit button -->
-                        <button type="submit" class="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full" data-mdb-ripple="true" data-mdb-ripple-color="light">
-                            {{ __('Export') }}
-                        </button>
-                    </form>
+                    </div>
+                    <div id="canvas"></div>
                 </div>
+
             </div>
+            <script>
+                var jsonData = <?php echo json_encode($r);
+                                ?>;
+                var parsedData = JSON.parse(jsonData);
+                var data = []
+                var data2 = []
+                for (let i = 0; i < parsedData['result'].length - 1; i++) {
+                    data.push({
+                        x: i,
+                        y: parsedData['result'][i]['x1']
+                    })
+                    data2.push({
+                        x: i,
+                        y: parsedData['result'][i]['x3']
+                    })
+                }
+
+                const totalDuration = 5000;
+                const delayBetweenPoints = totalDuration / data.length;
+                const previousY = (ctx) => ctx.index === 0 ? ctx.chart.scales.y.getPixelForValue(100) : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['y'], true).y;
+
+                const progress = document.getElementById('myRange');
+                const ctx = document.getElementById('myChart').getContext('2d');
+
+                const config = {
+                    type: 'line',
+                    data: {
+                        datasets: [{
+                                borderColor: 'red',
+                                borderWidth: 1,
+                                radius: 0,
+                                data: data,
+                            },
+                            {
+                                borderColor: 'blue',
+                                borderWidth: 1,
+                                radius: 0,
+                                data: data2,
+                            }
+                        ]
+                    },
+                    options: {
+                        animation: {
+                            // onComplete: function(context) {
+                            //     if (context.initial) {
+                            //         console.log('Initial animation finished');
+                            //     } else {
+                            //         console.log('animation finished');
+                            //     }
+                            // },
+                            // onProgress: function(context) {
+
+                            //     //   progress.value = context.currentStep / context.numSteps;
+                            // },
+                            x: {
+                                type: 'number',
+                                easing: 'linear',
+                                duration: delayBetweenPoints,
+                                from: NaN, // the point is initially skipped
+                                delay(ctx) {
+                                    if (ctx.type !== 'data' || ctx.xStarted) {
+                                        return 0;
+                                    }
+                                    ctx.xStarted = true;
+                                    return ctx.index * delayBetweenPoints;
+                                }
+                            },
+                            y: {
+                                type: 'number',
+                                easing: 'linear',
+                                duration: delayBetweenPoints,
+                                from: previousY,
+                                delay(ctx) {
+                                    if (ctx.type !== 'data' || ctx.yStarted) {
+                                        return 0;
+                                    }
+                                    ctx.yStarted = true;
+                                    return ctx.index * delayBetweenPoints;
+                                },
+                            }
+                        },
+                        interaction: {
+                            intersect: false
+                        },
+                        plugins: {
+                            legend: false
+                        },
+                        scales: {
+                            x: {
+                                type: 'linear'
+                            }
+                        }
+                    }
+                };
+
+
+
+                const config2 = {
+                    type: 'line',
+                    data: {
+                        datasets: [{
+                                borderColor: 'red',
+                                borderWidth: 1,
+                                radius: 0,
+                                data: [],
+                            },
+                            {
+                                borderColor: 'blue',
+                                borderWidth: 1,
+                                radius: 0,
+                                data: [],
+                            }
+                        ]
+                    },
+                    options: {
+                        interaction: {
+                            intersect: false
+                        },
+                        plugins: {
+                            legend: false
+                        },
+                        scales: {
+                            x: {
+                                type: 'linear',
+                                min: 0,
+                                max: 500
+                            },
+                            y: {
+                                type: 'linear',
+                                min: -100,
+                                max: 100
+                            }
+                        }
+                    }
+                };
+
+                const bttn = document.getElementById('startButton');
+
+                bttn.addEventListener("click", () => {
+                    myChart.destroy();
+
+                    myChart = new Chart(ctx, config);
+                })
+
+                var myChart = new Chart(
+                    ctx,
+                    config2
+                );
+                //myChart.stop();
+                //   myChart.destroy();
+            </script>
+
+            <!-- <div id="canvas"></div> -->
+            <!-- <script type="text/javascript" src="{{ URL::asset('js/sketch.js') }}"></script> -->
+            <script>
+                const animationWidth = 500;
+                const animationHeight = 300;
+                const inputBox = document.getElementById("inputbox");
+                const submitButton = document.getElementById("odosli");
+                const start = document.getElementById("startButton");
+                let car;
+                data3 = [];
+                data5 = [];
+                for (let i = 0; i < parsedData['result'].length - 1; i++) {
+                    data3.push(parsedData['result'][i]['x1']);
+                    data5.push(parsedData['result'][i]['x3']);
+                }
+
+
+                class MyString {
+                    constructor(x, y, w, h, canvasHeight) {
+                        this.x = x
+                        this.y = y;
+                        this.w = w;
+                        this.h = h;
+                        this.height = this.y - this.h;
+                        this.cycle = ceil(this.height / 50);
+                        this.stringHeight = (this.height / this.cycle);
+                        this.stringHeight = (this.stringHeight / 2);
+                        this.canvasHeight = canvasHeight;
+                        this.stringWidth = 25;
+                    }
+
+                    display() {
+                        for (let i = 0; i < this.cycle; i++) {
+                            this.currentHeight = this.currentHeight - this.stringHeight;
+                            line(this.x, this.currentHeight + this.stringHeight, this.x - this.stringWidth, this.currentHeight);
+                            line(this.x - this.stringWidth, this.currentHeight, this.x, this.currentHeight - this.stringHeight);
+                            this.currentHeight = this.currentHeight - this.stringHeight;
+
+                        }
+                        this.currentHeight = this.y
+                    }
+
+                    deviation(dev) {
+                        this.height = this.y - dev;
+                        this.stringHeight = (this.height / this.cycle);
+                        this.stringHeight = (this.stringHeight / 2);
+
+                        this.display();
+                    }
+
+                    changeY(dev, y) {
+                        this.y = y
+                        this.height = this.y - dev;
+                        this.stringHeight = (this.height / this.cycle);
+                        this.stringHeight = (this.stringHeight / 2);
+                        this.display();
+                    }
+
+                }
+
+                class Car {
+                    constructor(x, y, w, h, canvasHeight) {
+                        this.x = x;
+                        this.y = y;
+                        this.w = w;
+                        this.h = h;
+                        this.distance = canvasHeight / 4;
+                        this.canvasHeight = canvasHeight;
+                        this.string = new MyString(x + w - w / 3, this.canvasHeight, w + w - w / 3, this.y + this.h, this.canvasHeight);
+                    }
+
+                    deviation(dev) {
+                        this.y = dev;
+                        this.string.deviation(dev + this.h);
+                        this.display();
+                    }
+
+                    display() {
+                        this.string.display();
+
+                        line(this.x + this.w / 5, this.canvasHeight, this.x + this.w / 5, this.y);
+
+                        stroke(0);
+                        fill(175);
+                        rect(this.x, this.y, this.w, this.h);
+                    }
+
+                    upperObjDev(car, dev) {
+                        this.y = dev;
+                        this.canvasHeight = car.y;
+                        this.string.changeY(dev + this.h, car.y)
+
+                        this.display();
+                    }
+                }
+
+
+                function setup() {
+                    var myCanvas = createCanvas(animationWidth, animationHeight);
+                    myCanvas.parent("canvas");
+                    car = new Car(100, 170, 80, 35, animationHeight);
+                    wheel = new Car(100, 70, 80, 35, car.y);
+                }
+
+                function draw() {
+                    background(245);
+                    car.display();
+                    wheel.display();
+                }
+
+
+
+                start.addEventListener("click", async () => {
+                    console.log(data3[22])
+                    if (data3[22] > 0.01) {
+                        konstanta = 1
+                    }
+                    if (data3[22] > 0.1) {
+                        konstanta = 500
+                    }
+                    if (data3[22] > 1) {
+                        konstanta = 75
+                    }
+                    if (data3[22] > 10) {
+                        konstanta = 10
+                    } else {
+                        konstanta = 100
+                    }
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+
+                    for (let i = 0; i < data3.length; i++) {
+                        await new Promise(resolve => setTimeout(resolve, 50));
+                        car.deviation(data3[i] * konstanta + 200);
+                        // wheel.upperObjDev(car, Math.abs(data3[i] - data5[i]) * 100 + 100)
+                        wheel.upperObjDev(car, Math.abs(data5[i]) * konstanta * 10 + 100)
+                    }
+                })
+            </script>
+            @endif
+
         </div>
+    </div>
+    </div>
     </div>
 
     <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
@@ -111,308 +422,6 @@
     </div>
     @endif
 
-    @if(isset($r))
-
-    <button id="startButton">START</button>
-    <div>
-        <canvas id="myChart"></canvas>
-    </div>
-    <script>
-        var jsonData = <?php echo json_encode($r);
-                        ?>;
-        var parsedData = JSON.parse(jsonData);
-        var data = []
-        var data2 = []
-        for (let i = 0; i < parsedData['result'].length - 1; i++) {
-            data.push({
-                x: i,
-                y: parsedData['result'][i]['x1']
-            })
-            data2.push({
-                x: i,
-                y: parsedData['result'][i]['x3']
-            })
-        }
-
-        const totalDuration = 5000;
-        const delayBetweenPoints = totalDuration / data.length;
-        const previousY = (ctx) => ctx.index === 0 ? ctx.chart.scales.y.getPixelForValue(100) : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['y'], true).y;
-
-        const progress = document.getElementById('myRange');
-        const ctx = document.getElementById('myChart').getContext('2d');
-
-        const config = {
-            type: 'line',
-            data: {
-                datasets: [{
-                        borderColor: 'red',
-                        borderWidth: 1,
-                        radius: 0,
-                        data: data,
-                    },
-                    {
-                        borderColor: 'blue',
-                        borderWidth: 1,
-                        radius: 0,
-                        data: data2,
-                    }
-                ]
-            },
-            options: {
-                animation: {
-                    // onComplete: function(context) {
-                    //     if (context.initial) {
-                    //         console.log('Initial animation finished');
-                    //     } else {
-                    //         console.log('animation finished');
-                    //     }
-                    // },
-                    // onProgress: function(context) {
-
-                    //     //   progress.value = context.currentStep / context.numSteps;
-                    // },
-                    x: {
-                        type: 'number',
-                        easing: 'linear',
-                        duration: delayBetweenPoints,
-                        from: NaN, // the point is initially skipped
-                        delay(ctx) {
-                            if (ctx.type !== 'data' || ctx.xStarted) {
-                                return 0;
-                            }
-                            ctx.xStarted = true;
-                            return ctx.index * delayBetweenPoints;
-                        }
-                    },
-                    y: {
-                        type: 'number',
-                        easing: 'linear',
-                        duration: delayBetweenPoints,
-                        from: previousY,
-                        delay(ctx) {
-                            if (ctx.type !== 'data' || ctx.yStarted) {
-                                return 0;
-                            }
-                            ctx.yStarted = true;
-                            return ctx.index * delayBetweenPoints;
-                        },
-                    }
-                },
-                interaction: {
-                    intersect: false
-                },
-                plugins: {
-                    legend: false
-                },
-                scales: {
-                    x: {
-                        type: 'linear'
-                    }
-                }
-            }
-        };
-
-
-
-        const config2 = {
-            type: 'line',
-            data: {
-                datasets: [{
-                        borderColor: 'red',
-                        borderWidth: 1,
-                        radius: 0,
-                        data: [],
-                    },
-                    {
-                        borderColor: 'blue',
-                        borderWidth: 1,
-                        radius: 0,
-                        data: [],
-                    }
-                ]
-            },
-            options: {
-                interaction: {
-                    intersect: false
-                },
-                plugins: {
-                    legend: false
-                },
-                scales: {
-                    x: {
-                        type: 'linear',
-                        min: 0,
-                        max: 500
-                    },
-                    y: {
-                        type: 'linear',
-                        min: -100,
-                        max: 100
-                    }
-                }
-            }
-        };
-
-        const bttn = document.getElementById('startButton');
-
-        bttn.addEventListener("click", () => {
-            myChart.destroy();
-
-            myChart = new Chart(ctx, config);
-        })
-
-        var myChart = new Chart(
-            ctx,
-            config2
-        );
-        //myChart.stop();
-        //   myChart.destroy();
-    </script>
-
-    <div id="canvas"></div>
-    <!-- <script type="text/javascript" src="{{ URL::asset('js/sketch.js') }}"></script> -->
-    <script>
-        const animationWidth = 500;
-        const animationHeight = 500;
-        const inputBox = document.getElementById("inputbox");
-        const submitButton = document.getElementById("odosli");
-        const start = document.getElementById("startButton");
-        let car;
-        data3 = [];
-        data5 = [];
-        for (let i = 0; i < parsedData['result'].length - 1; i++) {
-            data3.push(parsedData['result'][i]['x1']);
-            data5.push(parsedData['result'][i]['x3']);
-        }
-
-
-        class MyString {
-            constructor(x, y, w, h, canvasHeight) {
-                this.x = x
-                this.y = y;
-                this.w = w;
-                this.h = h;
-                this.height = this.y - this.h;
-                this.cycle = ceil(this.height / 50);
-                this.stringHeight = (this.height / this.cycle);
-                this.stringHeight = (this.stringHeight / 2);
-                this.canvasHeight = canvasHeight;
-                this.stringWidth = 25;
-            }
-
-            display() {
-                for (let i = 0; i < this.cycle; i++) {
-                    this.currentHeight = this.currentHeight - this.stringHeight;
-                    line(this.x, this.currentHeight + this.stringHeight, this.x - this.stringWidth, this.currentHeight);
-                    line(this.x - this.stringWidth, this.currentHeight, this.x, this.currentHeight - this.stringHeight);
-                    this.currentHeight = this.currentHeight - this.stringHeight;
-
-                }
-                this.currentHeight = this.y
-            }
-
-            deviation(dev) {
-                this.height = this.y - dev;
-                this.stringHeight = (this.height / this.cycle);
-                this.stringHeight = (this.stringHeight / 2);
-
-                this.display();
-            }
-
-            changeY(dev, y) {
-                this.y = y
-                this.height = this.y - dev;
-                this.stringHeight = (this.height / this.cycle);
-                this.stringHeight = (this.stringHeight / 2);
-                this.display();
-            }
-
-        }
-
-        class Car {
-            constructor(x, y, w, h, canvasHeight) {
-                this.x = x;
-                this.y = y;
-                this.w = w;
-                this.h = h;
-                this.distance = canvasHeight / 4;
-                this.canvasHeight = canvasHeight;
-                this.string = new MyString(x + w - w / 3, this.canvasHeight, w + w - w / 3, this.y + this.h, this.canvasHeight);
-            }
-
-            deviation(dev) {
-                this.y = dev;
-                this.string.deviation(dev + this.h);
-                this.display();
-            }
-
-            display() {
-                this.string.display();
-
-                line(this.x + this.w / 5, this.canvasHeight, this.x + this.w / 5, this.y);
-
-                stroke(0);
-                fill(175);
-                rect(this.x, this.y, this.w, this.h);
-            }
-
-            upperObjDev(car, dev) {
-                this.y = dev;
-                this.canvasHeight = car.y;
-                this.string.changeY(dev + this.h, car.y)
-
-                this.display();
-            }
-        }
-
-
-        function setup() {
-            var myCanvas = createCanvas(animationWidth, animationHeight);
-            myCanvas.parent("canvas");
-            car = new Car(100, 300, 100, 50, animationHeight);
-            wheel = new Car(100, 150, 100, 50, car.y);
-        }
-
-        function draw() {
-            background(245);
-            car.display();
-            wheel.display();
-        }
-
-
-
-        start.addEventListener("click", async () => {
-            console.log(data3[22])
-            if (data3[22] > 0.01) {
-                konstanta = 1
-            }
-            if (data3[22] > 0.1) {
-                konstanta = 500
-            }
-            if (data3[22] > 1) {
-                konstanta = 75
-            }
-            if (data3[22] > 10) {
-                konstanta = 10
-            } else {
-                konstanta = 100
-            }
-            await new Promise(resolve => setTimeout(resolve, 1000));
-
-            for (let i = 0; i < data3.length; i++) {
-                await new Promise(resolve => setTimeout(resolve, 50));
-                car.deviation(data3[i] * konstanta + 200);
-                // wheel.upperObjDev(car, Math.abs(data3[i] - data5[i]) * 100 + 100)
-                wheel.upperObjDev(car, Math.abs(data5[i]) * konstanta * 10 + 100)
-            }
-        })
-    </script>
-
-
-    @endif
-
-
-    <p>KONIEC</p>
 
 
     @if(isset($sent))
