@@ -160,18 +160,17 @@
             },
             options: {
                 animation: {
-                    onComplete: function(context) {
-                        if (context.initial) {
-                            console.log('Initial animation finished');
-                        } else {
-                            console.log('animation finished');
-                        }
-                    },
-                    onProgress: function(context) {
+                    // onComplete: function(context) {
+                    //     if (context.initial) {
+                    //         console.log('Initial animation finished');
+                    //     } else {
+                    //         console.log('animation finished');
+                    //     }
+                    // },
+                    // onProgress: function(context) {
 
-                        //   progress.value = context.currentStep / context.numSteps;
-                        console.log("sm")
-                    },
+                    //     //   progress.value = context.currentStep / context.numSteps;
+                    // },
                     x: {
                         type: 'number',
                         easing: 'linear',
@@ -270,9 +269,150 @@
         //   myChart.destroy();
     </script>
 
+    <div id="canvas"></div>
+    <!-- <script type="text/javascript" src="{{ URL::asset('js/sketch.js') }}"></script> -->
+    <script>
+        const animationWidth = 500;
+        const animationHeight = 500;
+        const inputBox = document.getElementById("inputbox");
+        const submitButton = document.getElementById("odosli");
+        const start = document.getElementById("startButton");
+        let car;
+        data3 = [];
+        data5 = [];
+        for (let i = 0; i < parsedData['result'].length - 1; i++) {
+            data3.push(parsedData['result'][i]['x1']);
+            data5.push(parsedData['result'][i]['x3']);
+        }
+
+
+        class MyString {
+            constructor(x, y, w, h, canvasHeight) {
+                this.x = x
+                this.y = y;
+                this.w = w;
+                this.h = h;
+                this.height = this.y - this.h;
+                this.cycle = ceil(this.height / 50);
+                this.stringHeight = (this.height / this.cycle);
+                this.stringHeight = (this.stringHeight / 2);
+                this.canvasHeight = canvasHeight;
+                this.stringWidth = 25;
+            }
+
+            display() {
+                for (let i = 0; i < this.cycle; i++) {
+                    this.currentHeight = this.currentHeight - this.stringHeight;
+                    line(this.x, this.currentHeight + this.stringHeight, this.x - this.stringWidth, this.currentHeight);
+                    line(this.x - this.stringWidth, this.currentHeight, this.x, this.currentHeight - this.stringHeight);
+                    this.currentHeight = this.currentHeight - this.stringHeight;
+
+                }
+                this.currentHeight = this.y
+            }
+
+            deviation(dev) {
+                this.height = this.y - dev;
+                this.stringHeight = (this.height / this.cycle);
+                this.stringHeight = (this.stringHeight / 2);
+
+                this.display();
+            }
+
+            changeY(dev, y) {
+                this.y = y
+                this.height = this.y - dev;
+                this.stringHeight = (this.height / this.cycle);
+                this.stringHeight = (this.stringHeight / 2);
+                this.display();
+            }
+
+        }
+
+        class Car {
+            constructor(x, y, w, h, canvasHeight) {
+                this.x = x;
+                this.y = y;
+                this.w = w;
+                this.h = h;
+                this.distance = canvasHeight / 4;
+                this.canvasHeight = canvasHeight;
+                this.string = new MyString(x + w - w / 3, this.canvasHeight, w + w - w / 3, this.y + this.h, this.canvasHeight);
+            }
+
+            deviation(dev) {
+                this.y = dev;
+                this.string.deviation(dev + this.h);
+                this.display();
+            }
+
+            display() {
+                this.string.display();
+
+                line(this.x + this.w / 5, this.canvasHeight, this.x + this.w / 5, this.y);
+
+                stroke(0);
+                fill(175);
+                rect(this.x, this.y, this.w, this.h);
+            }
+
+            upperObjDev(car, dev) {
+                this.y = dev;
+                this.canvasHeight = car.y;
+                this.string.changeY(dev + this.h, car.y)
+
+                this.display();
+            }
+        }
+
+
+        function setup() {
+            var myCanvas = createCanvas(animationWidth, animationHeight);
+            myCanvas.parent("canvas");
+            car = new Car(100, 300, 100, 50, animationHeight);
+            wheel = new Car(100, 150, 100, 50, car.y);
+        }
+
+        function draw() {
+            background(245);
+            car.display();
+            wheel.display();
+        }
+
+
+
+        start.addEventListener("click", async () => {
+            console.log(data3[22])
+            if (data3[22] > 0.01) {
+                konstanta = 1
+            }
+            if (data3[22] > 0.1) {
+                konstanta = 500
+            }
+            if (data3[22] > 1) {
+                konstanta = 75
+            }
+            if (data3[22] > 10) {
+                konstanta = 10
+            } else {
+                konstanta = 100
+            }
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            for (let i = 0; i < data3.length; i++) {
+                await new Promise(resolve => setTimeout(resolve, 50));
+                car.deviation(data3[i] * konstanta + 200);
+                // wheel.upperObjDev(car, Math.abs(data3[i] - data5[i]) * 100 + 100)
+                wheel.upperObjDev(car, Math.abs(data5[i]) * konstanta * 10 + 100)
+            }
+        })
+    </script>
 
 
     @endif
+
+
+    <p>KONIEC</p>
 
 
     @if(isset($sent))
