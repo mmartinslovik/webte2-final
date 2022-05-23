@@ -34,7 +34,7 @@ class ApiController extends Controller
                 $counter = 0;
                 foreach ($output as $value) {
                     if ($counter > 1) {
-                        $parsedString = substr($value, 3);
+                        $parsedString = substr($value, 2);
                         $x1 = floatval(substr($parsedString, 0, 7));
                         $x3 = floatval(substr($parsedString, 8));
                         $jsonObject = new stdClass();
@@ -54,7 +54,14 @@ class ApiController extends Controller
             }
             $cas->save();
 
-            echo json_encode($jsonResult);
+            // echo json_encode($jsonResult);
+            $r = json_encode($jsonResult);
+
+            return view('cas')->with(
+                [
+                    'r' => $r
+                ]
+            );
         } else {
             header("HTTP/1.1 404 NOT FOUND");
             exit();
