@@ -37,7 +37,7 @@
 
                         <!-- Submit button -->
                         <button class="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full" data-mdb-ripple="true" data-mdb-ripple-color="light">
-                            Submit
+                            {{ __('Submit') }}
                         </button>
                     </form>
 
@@ -90,22 +90,22 @@
 
                         <!-- Submit button -->
                         <button class="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full" data-mdb-ripple="true" data-mdb-ripple-color="light">
-                            Submit
+                            {{ __('Submit') }}
                         </button>
 
                     </form>
                     @if(isset($r))
                     <br>
-                    <button id="startButton" class="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full" data-mdb-ripple="true" data-mdb-ripple-color="light">START</button>
+                    <button id="startButton" class="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full" data-mdb-ripple="true" data-mdb-ripple-color="light">{{ __('START') }}</button>
 
                     <div><canvas id="myChart"></canvas></div>
                     <div>
                         <div style="display: grid; grid-template-columns: auto auto;">
                             <div style="text-align: center;">
-                                <p style="color: red;">Wheel</p>
+                                <p style="color: red;">{{ __('Wheel') }}</p>
                             </div>
                             <div style="text-align: center;">
-                                <p style="color: blue;">Car</p>
+                                <p style="color: blue;">{{ __('Car') }}</p>
                             </div>
                         </div>
                     </div>
