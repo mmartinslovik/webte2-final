@@ -58,7 +58,7 @@
 
 
                     <!-- Send email form -->
-                    <form action="{{ route('export') }}" method="post">
+                    <form class="mt-4" action="{{ route('export') }}" method="post">
                         @csrf
                         <div class="mb-6">
                             <label class="form-check-label inline-block text-gray-800" for="email1">{{ __('Email address') }}</label>
@@ -80,10 +80,10 @@
                     </form>
 
                     <!-- Send octave command for animation and graph -->
-                    <form action="{{ route('coordinates') }}" method="get" onsubmit="return validateForm()" name="myForm">
+                    <form class="mt-4" action="{{ route('coordinates') }}" method="get" onsubmit="return validateForm()" name="myForm">
                         <!-- @csrf -->
                         <div class="mb-6">
-                            <label class="form-check-label inline-block text-gray-800" for="rvalue">{{ __('Command') }}</label>
+                            <label class="form-check-label inline-block text-gray-800" for="rvalue">{{ __('Plot') }}</label>
                             <input type="number" class="
                                 form-control
                                 block
@@ -145,6 +145,7 @@
                 </div>
 
             </div>
+
             <script>
                 var jsonData = <?php echo json_encode($r);
                                 ?>;
