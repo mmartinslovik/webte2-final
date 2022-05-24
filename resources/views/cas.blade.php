@@ -80,11 +80,11 @@
                     </form>
 
                     <!-- Send octave command for animation and graph -->
-                    <form action="{{ route('coordinates') }}" method="get">
+                    <form action="{{ route('coordinates') }}" method="get" onsubmit="return validateForm()" name="myForm">
                         <!-- @csrf -->
                         <div class="mb-6">
                             <label class="form-check-label inline-block text-gray-800" for="rvalue">{{ __('Command') }}</label>
-                            <input class="
+                            <input type="number" class="
                                 form-control
                                 block
                                 w-full
@@ -101,14 +101,30 @@
                                 m-0
                                 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
                                 font-normal
-                                " id="rvalue" placeholder="{{ __('Insert value of r') }}" name="r"></input>
+                                " id="rvalue" placeholder="{{ __('Insert value of r <0.35, 0.07>, <-0.07, -0.35>') }}" name="r" min="-0.35" max="0.35" step="0.01"></input>
                         </div>
 
                         <!-- Submit button -->
                         <button class="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full" data-mdb-ripple="true" data-mdb-ripple-color="light">
                             {{ __('Submit') }}
                         </button>
+                        <script>
+                            function validateForm() {
+                                var x = document.forms["myForm"]["r"].value;
+                                if (parseFloat(Math.abs(x)) < 0.07) {
+                                    alert("Number must be in range <0.35, 0.07>, <-0.07, -0.35>")
+                                    return false;
+                                }
+                                if (x == "") {
+                                    alert("Name must be filled out");
+                                    return false;
+                                }
 
+                                // if(x<0.07 && x>-0.07){
+
+                                // }
+                            }
+                        </script>
                     </form>
                     @if(isset($r))
                     <br>
@@ -399,7 +415,6 @@
                     } else {
                         start.innerText = "Stop";
                     }
-                    // console.log(data3[22])
                     if (flag) {
                         flag = false
                     } else {
@@ -407,10 +422,12 @@
                     }
                     if (!flag) {
 
-                        konstanta = 100
+                        konstanta = 200
+                        dis = 150
+
                         for (let i = 0; i < data3.length; i++) {
                             await new Promise(resolve => setTimeout(resolve, 50));
-                            car.deviation(Math.abs(data3[i]) * konstanta + 100);
+                            car.deviation(Math.abs(data3[i]) * konstanta + dis);
                             // car.deviation((data3[i] - data5[i]) * konstanta);
                             // wheel.upperObjDev(car, Math.abs(data3[i] - data5[i]) * konstanta)
                             wheel.upperObjDev(car, Math.abs(data5[i]) * konstanta * 10 + 75)

@@ -7,7 +7,7 @@
     "Car": "Auto",
     "Wheel": "Koleso",
     "Insert octave command":"Vložte octave príkaz",
-    "Insert value of r": "Vložte hodnotu r",
+    "Insert value of r <0.35, 0.07>, <-0.07, -0.35>": "Vložte hodnotu r <0.35, 0.07>, <-0.07, -0.35>",
     "START": "Štart",
     "Dashboard": "Panel",
     "You're logged in!": "Ste prihlásený",
