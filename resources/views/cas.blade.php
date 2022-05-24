@@ -172,17 +172,7 @@
                     },
                     options: {
                         animation: {
-                            // onComplete: function(context) {
-                            //     if (context.initial) {
-                            //         console.log('Initial animation finished');
-                            //     } else {
-                            //         console.log('animation finished');
-                            //     }
-                            // },
-                            // onProgress: function(context) {
 
-                            //     //   progress.value = context.currentStep / context.numSteps;
-                            // },
                             x: {
                                 type: 'number',
                                 easing: 'linear',
@@ -267,22 +257,27 @@
 
                 const bttn = document.getElementById('startButton');
 
-                bttn.addEventListener("click", () => {
-                    myChart.destroy();
 
-                    myChart = new Chart(ctx, config);
+                bttn.addEventListener("click", () => {
+                    if (start.innerText == "STOP") {
+                        myChart.destroy();
+                        myChart = new Chart(
+                            ctx,
+                            config2
+                        );
+
+                    } else {
+                        myChart.destroy();
+                        myChart = new Chart(ctx, config);
+                    }
                 })
 
                 var myChart = new Chart(
                     ctx,
                     config2
                 );
-                //myChart.stop();
-                //   myChart.destroy();
             </script>
 
-            <!-- <div id="canvas"></div> -->
-            <!-- <script type="text/javascript" src="{{ URL::asset('js/sketch.js') }}"></script> -->
             <script>
                 const animationWidth = 500;
                 const animationHeight = 300;
@@ -342,11 +337,12 @@
                 }
 
                 class Car {
-                    constructor(x, y, w, h, canvasHeight) {
+                    constructor(x, y, w, h, canvasHeight, car) {
                         this.x = x;
                         this.y = y;
                         this.w = w;
                         this.h = h;
+                        this.car = car;
                         this.distance = canvasHeight / 4;
                         this.canvasHeight = canvasHeight;
                         this.string = new MyString(x + w - w / 3, this.canvasHeight, w + w - w / 3, this.y + this.h, this.canvasHeight);
@@ -364,7 +360,11 @@
                         line(this.x + this.w / 5, this.canvasHeight, this.x + this.w / 5, this.y);
 
                         stroke(0);
-                        fill(175);
+                        if (this.car == 1) {
+                            fill(color(0, 0, 255));
+                        } else {
+                            fill(color(255, 0, 0));
+                        }
                         rect(this.x, this.y, this.w, this.h);
                     }
 
@@ -381,8 +381,8 @@
                 function setup() {
                     var myCanvas = createCanvas(animationWidth, animationHeight);
                     myCanvas.parent("canvas");
-                    car = new Car(100, 170, 80, 35, animationHeight);
-                    wheel = new Car(100, 70, 80, 35, car.y);
+                    car = new Car(100, 170, 80, 35, animationHeight, 0);
+                    wheel = new Car(100, 70, 80, 35, car.y, 1);
                 }
 
                 function draw() {
@@ -391,31 +391,33 @@
                     wheel.display();
                 }
 
-
+                var flag = true;
 
                 start.addEventListener("click", async () => {
-                    console.log(data3[22])
-                    if (data3[22] > 0.01) {
-                        konstanta = 1
-                    }
-                    if (data3[22] > 0.1) {
-                        konstanta = 500
-                    }
-                    if (data3[22] > 1) {
-                        konstanta = 75
-                    }
-                    if (data3[22] > 10) {
-                        konstanta = 10
+                    if (start.innerText == "STOP") {
+                        start.innerText = "Start";
                     } else {
-                        konstanta = 100
+                        start.innerText = "Stop";
                     }
-                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    // console.log(data3[22])
+                    if (flag) {
+                        flag = false
+                    } else {
+                        flag = true
+                    }
+                    if (!flag) {
 
-                    for (let i = 0; i < data3.length; i++) {
-                        await new Promise(resolve => setTimeout(resolve, 50));
-                        car.deviation(data3[i] * konstanta + 200);
-                        // wheel.upperObjDev(car, Math.abs(data3[i] - data5[i]) * 100 + 100)
-                        wheel.upperObjDev(car, Math.abs(data5[i]) * konstanta * 10 + 100)
+                        konstanta = 100
+                        for (let i = 0; i < data3.length; i++) {
+                            await new Promise(resolve => setTimeout(resolve, 50));
+                            car.deviation(Math.abs(data3[i]) * konstanta + 100);
+                            // car.deviation((data3[i] - data5[i]) * konstanta);
+                            // wheel.upperObjDev(car, Math.abs(data3[i] - data5[i]) * konstanta)
+                            wheel.upperObjDev(car, Math.abs(data5[i]) * konstanta * 10 + 75)
+                            if (flag) {
+                                break;
+                            }
+                        }
                     }
                 })
             </script>
