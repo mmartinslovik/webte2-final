@@ -149,6 +149,7 @@
                 var jsonData = <?php echo json_encode($r);
                                 ?>;
                 var parsedData = JSON.parse(jsonData);
+                //console.log(jsonData);
                 var data = []
                 var data2 = []
                 for (let i = 0; i < parsedData['result'].length - 1; i++) {
@@ -295,6 +296,12 @@
             </script>
 
             <script>
+                //const socket = new WebSocket('wss://localhost:9000')
+                const socket = new WebSocket('ws://localhost:9000');
+                var email = "{{ auth()->user()->email }}";
+
+                //console.log(email);
+
                 const animationWidth = 500;
                 const animationHeight = 300;
                 const inputBox = document.getElementById("inputbox");
@@ -421,6 +428,11 @@
                         flag = true
                     }
                     if (!flag) {
+
+
+                        let dataToSend = '{ "email":"'+email+'", '+jsonData.substring(1);
+                        //console.log(dataToSend);
+                        socket.send(dataToSend);
 
                         konstanta = 200
                         dis = 150
