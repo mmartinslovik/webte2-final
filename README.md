@@ -101,6 +101,12 @@ alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 ```
 
 ### Turn of mysql server to enable port
+
+### Build docker container
+```
+sail up --build
+```
+
 ### Run detached on localhost
 ```
 sail up -d
