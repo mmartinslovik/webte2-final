@@ -72,7 +72,7 @@
                         </tr>
                     </table>
                     <p>Github: simonkrupa(root and root), mmartinslovik, kubiksamuel, Fajl1p</p>
-                    <p>Použité knižnice: p5.js, chart.js</p>
+                    <p>Použité knižnice: p5.js, chart.js, ws: a Node.js WebSocket library(https://github.com/websockets/ws)</p>
                 </div>
             </div>
         </div>
