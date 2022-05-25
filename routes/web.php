@@ -29,6 +29,10 @@ Route::get('/cas', function () {
     return view('cas');
 });
 
+Route::get('/documentation', function () {
+    return view('documentation');
+});
+
 Route::get('/coordinates', [ApiController::class, 'getCoordinatesResponse'])->name('coordinates');
 
 Route::get('/command', [ApiController::class, 'getCommandResponse'])->name('command');
