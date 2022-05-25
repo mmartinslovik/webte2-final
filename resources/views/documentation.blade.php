@@ -71,6 +71,7 @@
                             <td>Finalizacia projektu</td>
                         </tr>
                     </table>
+                    <p>Github: simonkrupa(root and root), mmartinslovik, kubiksamuel, Fajl1p</p>
                     <p>Použité knižnice: p5.js, chart.js</p>
                 </div>
             </div>
