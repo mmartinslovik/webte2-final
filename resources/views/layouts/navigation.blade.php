@@ -18,10 +18,10 @@
                     <x-nav-link :href="route('cas')" :active="request()->routeIs('cas')">
                         {{ __('Cas') }}
                     </x-nav-link>
-                    <x-nav-link a href="/documentation">
+                    <x-nav-link :href="route('documentation')">
                         {{ __('Documentation') }}
                     </x-nav-link>
-                    <x-nav-link a href="/watch">
+                    <x-nav-link :href="route('watch')">
                         {{ __('Watch') }}
                     </x-nav-link>
                 </div>

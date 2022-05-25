@@ -31,11 +31,11 @@ Route::get('/cas', function () {
 
 Route::get('/watch', function () {
     return view('watch');
-});
+})->middleware(['auth'])->name('watch');
 
 Route::get('/documentation', function () {
     return view('documentation');
-});
+})->middleware(['auth'])->name('documentation');
 
 Route::get('/coordinates', [ApiController::class, 'getCoordinatesResponse'])->name('coordinates');
 
