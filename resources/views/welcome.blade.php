@@ -453,7 +453,7 @@
 
                         <div class="ml-12">
                             <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                Option is to run CAS using command only or plot graphs. The results of the computed values or coordinates can be send to specific email address as .csv file.
+                                Option is to run CAS using command only or plot graphs. The results of the computed values or coordinates can be sent to provided email address as .csv file.
                             </div>
                         </div>
                     </div>
@@ -465,7 +465,7 @@
 
                         <div class="ml-12">
                             <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                                On the /watch endpoint, there is a possibility follow another user's experiments by entering their email address and clicking the WATCH button.
+                                On the /watch endpoint, there is a possibility follow another user's experiments by entering their email address and clicking the WATCH button. Make sure "node server" is running.
                             </div>
                         </div>
                     </div>
@@ -488,7 +488,14 @@
             </div>
         </div>
     </div>
-    <img src="api_documentation.png" alt="API documentation" width="1430">
+    <div class="flex flex-wrap justify-center dark:bg-gray-900">
+        <img
+            src="api_documentation.png"
+            class="max-w-sm h-auto shadow-lg"
+            alt="API documentation"
+            width="1300"
+        />
+    </div>
 </body>
 
 <script>
