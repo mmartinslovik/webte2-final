@@ -31,6 +31,7 @@ Route::get('/cas', function () {
 
 Route::get('/watch', function () {
     return view('watch');
+});
 
 Route::get('/documentation', function () {
     return view('documentation');
