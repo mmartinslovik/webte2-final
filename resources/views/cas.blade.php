@@ -418,22 +418,29 @@
                 var flag = true;
 
                 start.addEventListener("click", async () => {
+                    const r = {{$_GET["r"]}};
                     if (start.innerText == "STOP") {
                         start.innerText = "Start";
+
+                        let dataToSend = '{ "email":"'+email+'", "r":"'+r+'"}';
+
+                        //console.log(dataToSend);
+                        socket.send(dataToSend);
                     } else {
                         start.innerText = "Stop";
+
+                        let dataToSend = '{ "email":"'+email+'", "r":"'+r+'", '+jsonData.substring(1);
+                        //console.log(dataToSend);
+                        socket.send(dataToSend);
                     }
                     if (flag) {
                         flag = false
                     } else {
                         flag = true
                     }
+
+
                     if (!flag) {
-
-
-                        let dataToSend = '{ "email":"'+email+'", '+jsonData.substring(1);
-                        //console.log(dataToSend);
-                        socket.send(dataToSend);
 
                         konstanta = 200
                         dis = 150
