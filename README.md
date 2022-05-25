@@ -115,3 +115,13 @@ sail artisan key:generate
 ```
 sail artisan serve --port 3001
 ```
+
+### Install node.js module ws
+```
+npm install
+```
+
+### Run node.js websocket server
+```
+node server
+```

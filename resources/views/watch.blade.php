@@ -20,6 +20,30 @@
                         {{ __('Watch') }}
                     </button>
 
+                    <div class="mt-4">
+                        <div class="mb-6">
+                            <label class="form-check-label inline-block text-gray-800" for="rvalue">{{ __('Plot') }}</label>
+                            <input type="number" class="
+                                form-control
+                                block
+                                w-full
+                                px-3
+                                py-1.5
+                                text-base
+                                font-normal
+                                text-gray-700
+                                bg-white bg-clip-padding
+                                border border-solid border-gray-300
+                                rounded
+                                transition
+                                ease-in-out
+                                m-0
+                                focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                                font-normal
+                                " id="rvalue" placeholder="{{ __('Value of r <0.35, 0.07>, <-0.07, -0.35>') }}" name="r" min="-0.35" max="0.35" step="0.01" disabled></input>
+                        </div>
+                    </div>
+
 
 
 
@@ -45,6 +69,7 @@
                 let parsedData = null;
                 let graphExists = false;
                 let isAnimating = false;
+                let count = 0;
 
                 const animationWidth = 500;
                 const animationHeight = 300;
@@ -141,6 +166,52 @@
 
                 let flag = true;
 
+                /*myChart = new Chart(ctx, config2);
+                graphExists = true;*/
+
+                let ctx = document.getElementById('myChart').getContext('2d');
+                const config2 = {
+                    type: 'line',
+                    data: {
+                        datasets: [{
+                            borderColor: 'red',
+                            borderWidth: 1,
+                            radius: 0,
+                            data: [],
+                        },
+                            {
+                                borderColor: 'blue',
+                                borderWidth: 1,
+                                radius: 0,
+                                data: [],
+                            }
+                        ]
+                    },
+                    options: {
+                        interaction: {
+                            intersect: false
+                        },
+                        plugins: {
+                            legend: false
+                        },
+                        scales: {
+                            x: {
+                                type: 'linear',
+                                min: 0,
+                                max: 500
+                            },
+                            y: {
+                                type: 'linear',
+                                min: -100,
+                                max: 100
+                            }
+                        }
+                    }
+                };
+
+                myChart = new Chart(ctx, config2);
+                graphExists = true;
+
                 function setup() {
                     var myCanvas = createCanvas(animationWidth, animationHeight);
                     myCanvas.parent("canvas");
@@ -157,160 +228,144 @@
 
                 socket.addEventListener("message", msg => {
                     const jsonData = JSON.parse(msg.data);
+                    console.log(jsonData);
 
                     if(email && jsonData.email===email){
-                        //console.log(jsonData);
-                        parsedData = jsonData;
 
-                        data = [];
-                        data2 = [];
+                        document.getElementById("rvalue").value = jsonData.r;
 
-                        for (let i = 0; i < parsedData['result'].length - 1; i++) {
-                            data.push({
-                                x: i,
-                                y: parsedData['result'][i]['x1']
-                            })
-                            data2.push({
-                                x: i,
-                                y: parsedData['result'][i]['x3']
-                            })
+                        if ((!jsonData.result && count===0)){
+                            //console.log("len raz");
                         }
+                        else{
+                            //console.log(jsonData);
+                            parsedData = jsonData;
 
-                        data3 = [];
-                        data5 = [];
+                            if (jsonData.result){
+                                data = [];
+                                data2 = [];
 
-                        for (let i = 0; i < parsedData['result'].length - 1; i++) {
-                            data3.push(parsedData['result'][i]['x1']);
-                            data5.push(parsedData['result'][i]['x3']);
-                        }
+                                for (let i = 0; i < parsedData['result'].length - 1; i++) {
+                                    data.push({
+                                        x: i,
+                                        y: parsedData['result'][i]['x1']
+                                    })
+                                    data2.push({
+                                        x: i,
+                                        y: parsedData['result'][i]['x3']
+                                    })
+                                }
 
-                        const totalDuration = 5000;
-                        const delayBetweenPoints = totalDuration / data.length;
-                        const previousY = (ctx) => ctx.index === 0 ? ctx.chart.scales.y.getPixelForValue(100) : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['y'], true).y;
+                                data3 = [];
+                                data5 = [];
 
-                        const progress = document.getElementById('myRange');
-                        const ctx = document.getElementById('myChart').getContext('2d');
+                                for (let i = 0; i < parsedData['result'].length - 1; i++) {
+                                    data3.push(parsedData['result'][i]['x1']);
+                                    data5.push(parsedData['result'][i]['x3']);
+                                }
+                            }
 
-                        const config = {
-                            type: 'line',
-                            data: {
-                                datasets: [{
-                                    borderColor: 'red',
-                                    borderWidth: 1,
-                                    radius: 0,
-                                    data: data,
-                                },
-                                    {
-                                        borderColor: 'blue',
+
+
+                            const totalDuration = 5000;
+                            const delayBetweenPoints = totalDuration / data.length;
+                            const previousY = (ctx) => ctx.index === 0 ? ctx.chart.scales.y.getPixelForValue(100) : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['y'], true).y;
+
+                            const progress = document.getElementById('myRange');
+                            ctx = document.getElementById('myChart').getContext('2d');
+
+                            const config = {
+                                type: 'line',
+                                data: {
+                                    datasets: [{
+                                        borderColor: 'red',
                                         borderWidth: 1,
                                         radius: 0,
-                                        data: data2,
-                                    }
-                                ]
-                            },
-                            options: {
-                                animation: {
+                                        data: data,
+                                    },
+                                        {
+                                            borderColor: 'blue',
+                                            borderWidth: 1,
+                                            radius: 0,
+                                            data: data2,
+                                        }
+                                    ]
+                                },
+                                options: {
+                                    animation: {
 
-                                    x: {
-                                        type: 'number',
-                                        easing: 'linear',
-                                        duration: delayBetweenPoints,
-                                        from: NaN, // the point is initially skipped
-                                        delay(ctx) {
-                                            if (ctx.type !== 'data' || ctx.xStarted) {
-                                                return 0;
+                                        x: {
+                                            type: 'number',
+                                            easing: 'linear',
+                                            duration: delayBetweenPoints,
+                                            from: NaN, // the point is initially skipped
+                                            delay(ctx) {
+                                                if (ctx.type !== 'data' || ctx.xStarted) {
+                                                    return 0;
+                                                }
+                                                ctx.xStarted = true;
+                                                return ctx.index * delayBetweenPoints;
                                             }
-                                            ctx.xStarted = true;
-                                            return ctx.index * delayBetweenPoints;
+                                        },
+                                        y: {
+                                            type: 'number',
+                                            easing: 'linear',
+                                            duration: delayBetweenPoints,
+                                            from: previousY,
+                                            delay(ctx) {
+                                                if (ctx.type !== 'data' || ctx.yStarted) {
+                                                    return 0;
+                                                }
+                                                ctx.yStarted = true;
+                                                return ctx.index * delayBetweenPoints;
+                                            },
                                         }
                                     },
-                                    y: {
-                                        type: 'number',
-                                        easing: 'linear',
-                                        duration: delayBetweenPoints,
-                                        from: previousY,
-                                        delay(ctx) {
-                                            if (ctx.type !== 'data' || ctx.yStarted) {
-                                                return 0;
-                                            }
-                                            ctx.yStarted = true;
-                                            return ctx.index * delayBetweenPoints;
-                                        },
-                                    }
-                                },
-                                interaction: {
-                                    intersect: false
-                                },
-                                plugins: {
-                                    legend: false
-                                },
-                                scales: {
-                                    x: {
-                                        type: 'linear'
-                                    }
-                                }
-                            }
-                        };
-
-
-
-                        const config2 = {
-                            type: 'line',
-                            data: {
-                                datasets: [{
-                                    borderColor: 'red',
-                                    borderWidth: 1,
-                                    radius: 0,
-                                    data: [],
-                                },
-                                    {
-                                        borderColor: 'blue',
-                                        borderWidth: 1,
-                                        radius: 0,
-                                        data: [],
-                                    }
-                                ]
-                            },
-                            options: {
-                                interaction: {
-                                    intersect: false
-                                },
-                                plugins: {
-                                    legend: false
-                                },
-                                scales: {
-                                    x: {
-                                        type: 'linear',
-                                        min: 0,
-                                        max: 500
+                                    interaction: {
+                                        intersect: false
                                     },
-                                    y: {
-                                        type: 'linear',
-                                        min: -100,
-                                        max: 100
+                                    plugins: {
+                                        legend: false
+                                    },
+                                    scales: {
+                                        x: {
+                                            type: 'linear'
+                                        }
                                     }
                                 }
+                            };
+
+
+
+
+                            if (flag) {
+                                flag = false
+                            } else {
+                                flag = true
                             }
-                        };
+                            if (!flag){
+                                konstanta = 200
+                                dis = 150
 
-                        if (graphExists){
-                            myChart.destroy();
+                                if (graphExists){
+                                    myChart.destroy();
+                                }
+                                myChart = new Chart(ctx, config);
+                                graphExists = true;
+
+                                animation();
+                            }else{
+                                if (graphExists){
+                                    myChart.destroy();
+
+                                    myChart = new Chart(ctx, config2);
+                                    graphExists = true;
+                                }
+                            }
                         }
-                        myChart = new Chart(ctx, config);
-                        graphExists = true;
+                        count++;
 
 
-                        if (flag) {
-                            flag = false
-                        } else {
-                            flag = true
-                        }
-                        if (!flag){
-                            konstanta = 200
-                            dis = 150
-
-                            animation();
-                        }
                     }
 
 
@@ -331,6 +386,8 @@
 
                 function startWatching(){
                     email = document.getElementById("email1").value;
+
+                    count = 0;
                 }
 
             </script>

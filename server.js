@@ -12,8 +12,6 @@ server.listen(9000);
 const ws = new WebSocket.Server( {server});*/
 const ws = new WebSocket.Server( { port: 9000 });
 
-let messages = [];
-
 
 ws.on('connection', (socket) => {
     console.log("New Connection");
@@ -21,7 +19,7 @@ ws.on('connection', (socket) => {
     socket.on("message", (data) =>{
         const msg = data.toString()
         const received = JSON.parse(msg);
-        console.log(received);
+        //console.log(received);
         ws.clients.forEach(client => {
             client.send(msg);
         })

@@ -21,6 +21,9 @@
                     <x-nav-link a href="/documentation">
                         {{ __('Documentation') }}
                     </x-nav-link>
+                    <x-nav-link a href="/watch">
+                        {{ __('Watch') }}
+                    </x-nav-link>
                 </div>
             </div>
 
